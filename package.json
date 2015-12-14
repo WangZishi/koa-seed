@@ -9,6 +9,7 @@
   "author": "WangZishi",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.0.6",
     "koa": "^2.0.0-alpha.3"
   }
 }

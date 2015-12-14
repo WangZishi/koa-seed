@@ -36,4 +36,10 @@
 ehthumbs.db
 Thumbs.db
 
+# Node Dependencies #
+#####################
 node_modules/
+
+# Project Build File #
+######################
+out/
