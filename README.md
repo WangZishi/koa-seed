@@ -1,2 +1,2 @@
 # koa-seed
-Hello World!!
+Hello World!
