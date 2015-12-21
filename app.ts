@@ -12,18 +12,15 @@ log4js.configure({
         { type: 'console' },
         { type: 'file', filename: 'app.log', category: 'app' }
     ]
-})
+});
 const log = log4js.getLogger('app');
 log.info(`Starting application in ${process.env.NODE_ENV} mode.`);
 
 if (isMaster && process.env.NODE_ENV == "production") {
-    log.debug(`isMaster: ${isMaster}`);
-    for (var i = 0; i < cpus().length; i++) {
-        fork();
-    }
-    // cpus().forEach(() => fork());
-    on('online', (worker, code, signal) => log.info(`worker ${worker.process.pid} online!`))
-    on('exit', (worker, code, signal) => log.info(`worker ${worker.process.pid} died!`));
+    log.info(`Master node ${process.pid} online!`);
+    cpus().forEach(() => fork());
+    on('online', (worker, code, signal) => log.info(`Slave node ${worker.process.pid} online!`))
+    on('exit', (worker, code, signal) => log.info(`Slave node ${worker.process.pid} died!`));
 } else {
     const app = new Koa();
     app.use(logger());
