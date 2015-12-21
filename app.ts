@@ -5,8 +5,8 @@ import * as logger from 'koa-logger';
 import * as log4js from 'log4js';
 import { isMaster, fork, on } from 'cluster'
 import { cpus } from 'os';
+import { UserController } from './controllers/user-controller'
 
-import {UserController} from './controllers/user-controller'
 log4js.configure({
     appenders: [
         { type: 'console' },
@@ -14,10 +14,11 @@ log4js.configure({
     ]
 })
 const log = log4js.getLogger('app');
+log.info(`Starting application in ${process.env.NODE_ENV} mode.`);
 
-if (isMaster) {
+if (isMaster && process.env.NODE_ENV == "production") {
     log.debug(`isMaster: ${isMaster}`);
-    for (var i = 0; i < cpus().length; i++){
+    for (var i = 0; i < cpus().length; i++) {
         fork();
     }
     // cpus().forEach(() => fork());
@@ -36,5 +37,5 @@ if (isMaster) {
 
     app.listen(3000);
 
-    log.info('start server on port 3000');
+    log.info('Server is listening on port 3000...');
 }
