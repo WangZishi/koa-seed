@@ -13,10 +13,21 @@
 /// <reference path="../node/node.d.ts" />
 
 
+
+declare module Koa {
+    interface IMiddleware {
+        <T>(ctx: any, next: any): void | Promise<T>;
+    }
+}
+
+
 declare module "koa" {
-    import * as http from "http"
-    import * as fs from "fs"
-    // http.createServer()
+    import {Server, IncomingMessage, ServerResponse} from 'http';
+
+    interface ApplicationStatic {
+        new (): IApplication;
+    }
+
     interface IApplication extends NodeJS.EventEmitter {
         proxy: boolean;
         middleware: Array<any>;
@@ -25,89 +36,30 @@ declare module "koa" {
         context: any;
         request: any;
         response: any;
-        listen(port: number, hostname?: string, backlog?: number, callback?: Function): http.Server;
-        listen(port: number, hostname?: string, callback?: Function): http.Server;
-        listen(path: string, callback?: Function): http.Server;
-        listen(handle: any, listeningListener?: Function): http.Server;
-        use(fn:IMiddleware): any;
+        listen(port: number, hostname?: string, backlog?: number, callback?: Function): Server;
+        listen(port: number, hostname?: string, callback?: Function): Server;
+        listen(path: string, callback?: Function): Server;
+        listen(handle: any, listeningListener?: Function): Server;
+        use(fn: Koa.IMiddleware): any;
     }
-    
-// delegate(proto, 'response')
-//   .method('attachment')
-//   .method('redirect')
-//   .method('remove')
-//   .method('vary')
-//   .method('set')
-//   .method('append')
-//   .access('status')
-//   .access('message')
-////   .access('body')
-//   .access('length')
-//   .access('type')
-//   .access('lastModified')
-//   .access('etag')
-//   .getter('headerSent')
-//   .getter('writable');
 
-// /**
-//  * Request delegation.
-//  */
-
-// delegate(proto, 'request')
-//   .method('acceptsLanguages')
-//   .method('acceptsEncodings')
-//   .method('acceptsCharsets')
-//   .method('accepts')
-//   .method('get')
-//   .method('is')
-//   .access('querystring')
-//   .access('idempotent')
-//   .access('socket')
-//   .access('search')
-////   .access('method')
-//   .access('query')
-//   .access('path')
-////   .access('url')
-//   .getter('origin')
-//   .getter('href')
-//   .getter('subdomains')
-//   .getter('protocol')
-//   .getter('host')
-//   .getter('hostname')
-//   .getter('header')
-//   .getter('headers')
-//   .getter('secure')
-//   .getter('stale')
-//   .getter('fresh')
-//   .getter('ips')
-//   .getter('ip');
-    
     interface IContext {
-        request: http.IncomingMessage;
-        response: http.ServerResponse;
+        request: IncomingMessage;
+        response: ServerResponse;
         app: IApplication;
-        req: http.IncomingMessage;
-        res: http.ServerResponse;
+        req: IncomingMessage;
+        res: ServerResponse;
         ctx: IContext;
-        
+
         url: string;
         method: string;
-        
+
         body: {} | string;
-        
+
         originalUrl: string;
         // cookie: 
     }
-    
-    interface IMiddleware {
-        (ctx: IContext, next);
-    }
-    
-    interface ApplicationStatic {
-        new (): IApplication;
-    }
-    
     const _tmp: ApplicationStatic;
-    
+
     export = _tmp;
 }

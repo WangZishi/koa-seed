@@ -1,9 +1,13 @@
 {
     "compilerOptions": {
-        "target": "ES6",
+        "target": "es2015",
         "module": "commonjs",
         "sourceMap": true,
         "experimentalDecorators": true,
         "outDir": "out"
-    }
+    },
+    "exclude": [
+        "out",
+        "node_modules"
+    ]
 }

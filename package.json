@@ -9,9 +9,10 @@
   "author": "WangZishi",
   "license": "ISC",
   "dependencies": {
-    "bluebird": "^3.0.6",
     "koa": "^2.0.0-alpha.3",
-    "oracledb": "^1.4.0",
-    "surface": "^0.7.12"
+    "koa-logger": "^2.0.0",
+    "koa-router": "^7.0.0",
+    "log4js": "^0.6.29",
+    "oracledb": "^1.4.0"
   }
 }
