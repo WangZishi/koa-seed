@@ -7,10 +7,10 @@ import { isMaster, fork, on } from 'cluster'
 import { cpus } from 'os';
 import { getLogger } from './configurations/logs';
 import { db, mongoose } from './configurations/mongodb';
-import { Schema } from 'mongoose';
+// import { Schema } from 'mongoose';
 // import { UserController } from './controllers/user-controller';
 
-// import { User } from './models/user';
+import { UserSchema } from './models/user';
 // import * as User1 from './models/user';
 
 const logger = getLogger();
@@ -26,13 +26,17 @@ if (isMaster && process.env.NODE_ENV == "production") {
     const app = new Koa();
     app.use(Koalogger());
 
-    const UserSchema = new Schema({
-        name: String,
-        password: String
-    })
+    // const UserSchema = new Schema({
+    //     name: String/*,
+    //     password: String*/
+    // })
 
-    const User = mongoose.model('User', UserSchema);
-    User.find({}).exec().then(console.log);
+    // const User = mongoose.model('User', UserSchema, 'play');
+    // User.find({}).exec().then(console.log);
+    
+    console.log(UserSchema.add);
+    
+    
     // console.log({User})
     // let user = new User({ name: 'WangZishi', password: '111' });
     // user.save((err, result) => {
