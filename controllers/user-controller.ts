@@ -1,40 +1,49 @@
 'use strict'
 import * as Router from 'koa-router';
-import { Db, Collection, } from 'mongodb';
+import { User } from '../models/user';
+import { getLogger } from '../configurations/logs';
+
+const logger = getLogger('UserController');
 
 export class UserController {
     private router: KoaRouter.IRouter;
-    private db: Db
 
-    constructor(db: Db) {
-        this.db = db;
-
+    constructor() {
         this.router = new Router({
             prefix: "/users"
         });
 
         this.router.get('/new', async (ctx, next) => {
-
-            this.db.collection('users', (err, collection) => {
-                collection.insertOne({
-                    user: 'wangzishi',
-                    password: '111'
-                }, (err, result) => {
-                    ctx.body = `result: ${result}`;
-                })
-            });
-            await next();
-
+            let user = new User({ name: 'WangZishi', password: '12342' });
+            User.save()
+            // user.save
+            // user.save((err, result) => {
+            //     if (err != null) logger.error(err);
+            //     console.log(result);
+                
+            // });
+            // await next();
         });
 
         this.router.get('/', async (ctx, next) => {
-            this.db.collection('users', (err, collection) => {
-                collection.find((err, result) => {
-                    result.toArray((err, result) => {
-                        ctx.body = result;
-                    })
-                })
-            });
+            User.find({}).exec()
+                .then(result => {
+                    console.log({ result});
+                });
+            // await new Promise((resolve, reject) => {
+            //     User.find({}, (err, result) => {
+            //         if (err != null) reject(err);
+            //         resolve(result);
+            //     })
+            // })
+            //     .then(result => {
+            //         ctx.body = result;
+            //     })
+            //     .catch(err => {
+            //         logger.error(err);
+            //     });
+            
+            // return await next();
         });
 
     }
