@@ -1,6 +1,6 @@
 'use strict'
 import * as Router from 'koa-router';
-import { Db } from 'mongodb';
+import { Db, Collection, } from 'mongodb';
 
 export class UserController {
     private router: KoaRouter.IRouter;
@@ -14,6 +14,7 @@ export class UserController {
         });
 
         this.router.get('/new', async (ctx, next) => {
+
             this.db.collection('users', (err, collection) => {
                 collection.insertOne({
                     user: 'wangzishi',
@@ -23,6 +24,7 @@ export class UserController {
                 })
             });
             await next();
+
         });
 
         this.router.get('/', async (ctx, next) => {
