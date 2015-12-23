@@ -12,10 +12,11 @@ import { UserController } from './controllers/user-controller';
 
 import { UserSchema } from './models/user';
 
-const logger = getLogger();
-logger.info(`Starting application in ${process.env.NODE_ENV} mode.`);
+const logger = getLogger('app');
+const NODE_ENV = process.env.NODE_ENV || 'production';
+logger.info(`Starting application in ${NODE_ENV} mode.`);
 
-if (isMaster && process.env.NODE_ENV == "production") {
+if (isMaster && NODE_ENV == "production") {
     logger.info(`Master node ${process.pid} online!`);
     cpus().forEach(() => fork());
     on('online', (worker, code, signal) => logger.info(`Slave node ${worker.process.pid} online!`))
@@ -24,7 +25,7 @@ if (isMaster && process.env.NODE_ENV == "production") {
 
     const app = new Koa();
     app.use(Koalogger());
-    
+
     app.use(new UserController().routes());
 
     app.listen(3000);

@@ -1,7 +1,7 @@
 'use strict';
 import { Mongoose, Schema } from 'mongoose';
 import { getLogger } from './logs';
-const logger = getLogger('mongoose');
+const logger = getLogger('mongo');
 
 const Uri = 'mongodb://localhost:27017/test';
 
