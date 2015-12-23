@@ -8,10 +8,9 @@ import { cpus } from 'os';
 import { getLogger } from './configurations/logs';
 import { db, mongoose } from './configurations/mongodb';
 // import { Schema } from 'mongoose';
-// import { UserController } from './controllers/user-controller';
+import { UserController } from './controllers/user-controller';
 
 import { UserSchema } from './models/user';
-// import * as User1 from './models/user';
 
 const logger = getLogger();
 logger.info(`Starting application in ${process.env.NODE_ENV} mode.`);
@@ -25,44 +24,8 @@ if (isMaster && process.env.NODE_ENV == "production") {
 
     const app = new Koa();
     app.use(Koalogger());
-
-    // const UserSchema = new Schema({
-    //     name: String/*,
-    //     password: String*/
-    // })
-
-    // const User = mongoose.model('User', UserSchema, 'play');
-    // User.find({}).exec().then(console.log);
     
-    console.log(UserSchema.add);
-    
-    
-    // console.log({User})
-    // let user = new User({ name: 'WangZishi', password: '111' });
-    // user.save((err, result) => {
-    //     console.log({ result })
-    // })
-    // User.save();
-    // User.find({}, (err, users) => {
-    //     user.get
-    //     console.log({ users });
-    // });
-
-    
-
-    
-    // app.use(new UserController().routes());
-    // app.use(async (ctx, next) => {
-    //     console.log(ctx.path)
-    //     if (ctx.path != '/uses/') await next();
-    //     User.find({}, (err, result) => console.log(result));
-    //     // /*ctx.body = */User.find({}).exec();
-    // })
-
-    // // response
-    // app.use(ctx => {
-    //     ctx.body = 'Hello World!';
-    // });
+    app.use(new UserController().routes());
 
     app.listen(3000);
 
